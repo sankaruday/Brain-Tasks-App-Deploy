@@ -15,9 +15,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
       - echo Updating K8s deployment...
-      - aws eks update-kubeconfig --name brain-cluster --region ap-south-1
+      # Add the --role-arn flag here to match the one in aws-auth
+      - aws eks update-kubeconfig --name brain-cluster --region ap-south-1 --role-arn arn:aws:iam::446550123588:role/codebuild-Brain-Tasks-App-Build-service-role
       - kubectl set image deployment/brain-app-deployment brain-app-container=$REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
