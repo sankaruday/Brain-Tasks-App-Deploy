@@ -18,6 +18,7 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
       - echo Updating K8s deployment...
-      # Add the --role-arn flag here to match the one in aws-auth
-      - aws eks update-kubeconfig --name brain-cluster --region ap-south-1 --role-arn arn:aws:iam::446550123588:role/codebuild-Brain-Tasks-App-Build-service-role
-      - kubectl set image deployment/brain-app-deployment brain-app-container=$REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - aws eks update-kubeconfig --name brain-cluster --region ap-south-1
+      # Force the token for the current session
+      - TOKEN=$(aws eks get-token --cluster-name brain-cluster | jq -r '.status.token')
+      - kubectl set image deployment/brain-app-deployment brain-app-container=$REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION --token=$TOKEN
