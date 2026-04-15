@@ -1,91 +1,64 @@
-DevOps Practice Project – Dist Directory
+Brain React App: Code-to-Cloud Pipeline
 
-This repository contains the production-ready build files (dist folder) for DevOps practice and deployment exercises.
+This repository contains the source code and CI/CD configuration for the Brain React Application. The project demonstrates a streamlined automated deployment workflow using Jenkins, Docker, and AWS EC2, focused on high-performance delivery and reliable monitoring.
 
-It is intentionally structured to help learners focus on CI/CD pipelines, hosting, containerization, and infrastructure setup rather than application development.
+1. Pipeline Architecture & Explanation
+---------------------------------------
+The CI/CD pipeline is an automated workflow designed to move code from development to a live production environment with minimal manual intervention.
 
-📁 What This Repository Contains
+Stage 1: Git Clone (Source Control) – Automatically retrieves the latest source code from the GitHub repository to the build environment, ensuring the pipeline always uses the most recent developer commits.
 
-dist/ – Compiled and production-ready static files
+Stage 2: Dockerize (Containerization) – Packages the React application into a lightweight container. It uses a multi-stage Dockerfile to build assets and serves them via Nginx on Port 80.
 
-HTML
+Stage 3: Bash Scripting (Automation) – Executes custom .sh scripts to automate the build and deployment logic, ensuring consistent commands are used across every run.
 
-CSS
+Stage 4: Version Control (Branching) – Utilizes a branching strategy where code is managed in a dev branch for testing before being merged into the master branch for production.
 
-JavaScript
+Stage 5: Image Registry (Docker Hub) – Pushes the built images to a public repository for development and a private repository for secure production storage.
 
-Assets (images, fonts, etc.)
+Stage 6: Jenkins (Orchestration) – Manages the entire lifecycle via an automated pipeline. It listens for GitHub webhooks to trigger builds and deployments instantly.
 
-These files are ready to deploy to:
+Stage 7: AWS (Cloud Hosting) – Deploys the containerized application onto an AWS t3.micro instance within a configured VPC, exposing it to the public internet.
 
-Web servers (Nginx / Apache)
+Stage 8: Monitoring (Observability) – Implements health checks to monitor the application's uptime and status, providing real-time visibility into the live environment.
 
-Cloud platforms (AWS S3, Azure Blob, GCP Storage)
+2. Setup & Configuration Instructions
+Prerequisites
+Tools: Docker and Git installed on the workstation/server.
 
-Containerized environments (Docker + Nginx)
+CI/CD: Jenkins server configured with necessary plugins and Docker group permissions.
 
-Kubernetes clusters
+Cloud: AWS Account with a t3.small instance and an attached Security Group allowing Port 80 and 22.
 
-CI/CD pipeline demonstrations
+Step 1: Infrastructure Preparation (AWS)
+Provision an Ubuntu-based instance in your preferred region.
 
-🎯 Purpose of This Repository
+Instance Type: t3.small (Free Tier eligible)
 
-This repository is designed for:
+Command: ssh -i your-key.pem ubuntu@your-aws-ip
 
-DevOps beginners
+Step 2: Containerization & Automation
+Create the Dockerfile and automation scripts in the project root.
 
-CI/CD practice
+Command: docker build -t brain-app .
 
-Deployment pipeline testing
+Command: chmod +x build.sh deploy.sh
 
-Docker & Kubernetes deployment exercises
+Step 3: Jenkins Pipeline Setup
+Configure a Pipeline job in Jenkins to track your repository. Ensure the Jenkins user has permission to run Docker commands:
 
-Web server configuration practice
+Command: sudo usermod -aG docker jenkins && sudo systemctl restart jenkins
 
-Reverse proxy and load balancer setup
+Step 4: Monitoring Implementation
+Set up an uptime monitor or health check to verify the application status.
 
-The goal is to simulate real-world deployment scenarios using already built application files.
+3. Deployment Artifacts & Proof of Success
+Application URL: http://ab268146f9b13492081a0071b7ce8b48-336869789.ap-south-1.elb.amazonaws.com
 
-❓ Why is there NO package.json?
+GitHub Repository: https://github.com/sankaruday/Brain-Tasks-App-Deploy
 
-You may notice that this repository does not include:
+Docker Hub Repositories: https://hub.docker.com/u/sankaruday
 
-package.json
+Docker Hub Image : sankaruday/brain-app
 
-node_modules
-
-Source code (src/)
-
-Build tools configuration
-
-✅ Reason:
-
-This repository only contains the final production build output (dist), not the development source code.
-
-In a typical project:
-
-Developers write source code.
-
-The project is built using tools like:
-
-Node.js
-
-Webpack
-
-Vite
-
-React (or other frameworks)
-
-A dist/ folder is generated.
-
-Only the production build is deployed to servers.
-
-This repository represents step 4 only.
-
-Since this is already the compiled output:
-
-No dependencies are required
-
-No build process is required
-
-No package.json is needed
+AWS Region: ap-south-1 (Mumbai)
