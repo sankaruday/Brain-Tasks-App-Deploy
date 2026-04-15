@@ -3,7 +3,7 @@ Brain React App: Code-to-Cloud Pipeline
 This repository contains the source code and CI/CD configuration for the Brain React Application. The project demonstrates a streamlined automated deployment workflow using Jenkins, Docker, and AWS EC2, focused on high-performance delivery and reliable monitoring.
 
 1. Pipeline Architecture & Explanation
----------------------------------------
+   
 The CI/CD pipeline is an automated workflow designed to move code from development to a live production environment with minimal manual intervention.
 
 Stage 1: Git Clone (Source Control) – Automatically retrieves the latest source code from the GitHub repository to the build environment, ensuring the pipeline always uses the most recent developer commits.
@@ -53,6 +53,7 @@ Step 4: Monitoring Implementation
 Set up an uptime monitor or health check to verify the application status.
 
 3. Deployment Artifacts & Proof of Success
+
 Application URL: http://ab268146f9b13492081a0071b7ce8b48-336869789.ap-south-1.elb.amazonaws.com
 
 GitHub Repository: https://github.com/sankaruday/Brain-Tasks-App-Deploy
